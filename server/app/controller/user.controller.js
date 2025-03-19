@@ -16,10 +16,11 @@ let createToken = (id) => {
 
 
 let registerUser =async (req,res)=>{
-    let{name, email, password, role}=req.body;
+    let{name,username, email, password, role}=req.body;
     // console.log(req.body);
     let user =new User({
         name,
+        username,
         email,
         password,
         role

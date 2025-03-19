@@ -21,7 +21,7 @@ let createStory = async (req, res) => {
 
 let getAllStory = async (req, res) => {
     try {
-        let stories = await Story.find().populate('writer', 'name email');
+        let stories = await Story.find().populate('writer', 'email-_id');
         res.json({ stories });
     }
     catch (error) {
@@ -29,4 +29,59 @@ let getAllStory = async (req, res) => {
     }
 
 };
-module.exports = {createStory,getAllStory};
+
+let userSpecificStory = async (req, res) => {
+    // let id = req.params.id;
+    try {
+        let stories = await Story.find({ writer: req.user.id });
+        res.json({ stories });
+    }
+    catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+
+}
+
+//like and Unlike story
+// Like a story
+let likeStory = async (req, res) => {
+    try {
+        const story = await Story.findById(req.params.id);
+        if (!story) return res.status(404).json({ message: "Story not found" });
+
+        // Check if the user already liked the story
+        if (story.likes.includes(req.user.id)) {
+            return res.status(400).json({ message: "You already liked this story" });
+        }
+
+        story.likes.push(req.user.id);
+        await story.save();
+        res.status(200).json({ message: "Story liked", likes: story.likes.length });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Unlike a story
+let unlikeStory = async (req, res) => {
+    try {
+        const story = await Story.findById(req.params.id);
+        if (!story) return res.status(404).json({ message: "Story not found" });
+
+        // Remove user from likes
+        story.likes = story.likes.filter(id => id.toString() !== req.user.id.toString());
+        story.unlikes.push(req.user.id);
+        await story.save();
+        res.status(200).json({ message: "Story unliked", likes: story.likes.length });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+
+
+
+
+
+module.exports = {createStory,getAllStory,userSpecificStory, likeStory, unlikeStory};

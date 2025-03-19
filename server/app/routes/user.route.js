@@ -5,7 +5,7 @@ let router = express.Router();
 const { registerUser, loginUser, logoutUser} = require('../controller/user.controller');
 const { checkExitedUser } = require('../middleware/checkExitedUser');
 const { requireAuth } = require('../middleware/auth.middleware');
-const { createStory } = require('../controller/story.controller');
+const { createStory, getAllStory, userSpecificStory, likeStory, unlikeStory} = require('../controller/story.controller');
 
 
 
@@ -19,8 +19,12 @@ router.post('/logout',requireAuth,logoutUser);
 //protected routes
 //story route
 router.post('/save-story',requireAuth,createStory);
-router.get('/get-All-story',requireAuth,);
+router.get('/get-all-story',requireAuth,getAllStory);
+router.get('/user-story',requireAuth,userSpecificStory);
 
+
+router.put('/:id/like', requireAuth, likeStory);
+router.put('/:id/unlike', requireAuth, unlikeStory);
 
 
 
