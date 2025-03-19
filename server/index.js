@@ -1,19 +1,27 @@
 let  express = require('express')
 let mongoose = require('mongoose');
 const router = require('./app/routes/user.route');
+
+let cors = require('cors');
+let cookieParser = require('cookie-parser');
+
 require('dotenv').config();
 let app = express();
 
 
-
+app.use(cookieParser());
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(cors());
 
 //import routes
 app.use('/api/user',router);
 
 
-//http://localhost:3000/api/user/register
-//http://localhost:3000/api/user/login
+
+
+//http://localhost:8000/api/user/register
+//http://localhost:8000/api/user/login
 
 
 

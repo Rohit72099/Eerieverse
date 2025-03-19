@@ -1,20 +1,37 @@
-
 let mongoose = require('mongoose');
 let { User }= require('../model/user.model');
+let jwt = require('jsonwebtoken');
+let bcrypt = require('bcrypt');
+
+require('dotenv').config();
+
+const SECRET_KEY = process.env.SECRET_KEY;
+
+let createToken = (id) => {
+    return jwt.sign({ id },SECRET_KEY, {
+        expiresIn: 86400 // 24 hours
+    });
+}
+
+
 
 let registerUser =async (req,res)=>{
     let{name, email, password, role}=req.body;
     // console.log(req.body);
-    let user =await new User({
+    let user =new User({
         name,
         email,
         password,
         role
     });
-    user.save().then((user)=>{
-        res.status(201).json(user);
+    await user.save().then((user)=>{
+        let token = createToken(user._id);
+        // console.log(token);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 });
+
+        res.status(201).json({message: "User registered successfully"});
     }).catch((error)=>{
-        res.status(500).json(error);
+        res.status(500).json({message: error.message});
     });
 
 }
@@ -23,23 +40,49 @@ let registerUser =async (req,res)=>{
 
 let loginUser = async (req, res) => {
     let { email, password } = req.body;
+    try{
+        let userFind = await User.findOne({ email: email }).select('+password');
 
-    // Find user by email and password
-    let userFind = await User.findOne({ email: email, password: password });
-
-    if (!userFind) {
-        return res.status(404).json({ message: "Invalid email or password" });
+        if (!userFind) {
+            return res.status(404).json({ message: "User not registered" });
+        }
+        
+        // Compare hashed password
+        const isMatch = await bcrypt.compare(password, userFind.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid password" });
+        }
+        
+        // console.log(userFind); 
+        let token = createToken(userFind._id);
+        // console.log(token);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 });  
+        res.status(200).json({ message: "User logged in" ,});
     }
+    catch(error){
+        res.status(500).json({message: error.message});
+    }
+   
 
-    res.status(200).json({ message: "User logged in successfully" });
-    // console.log(userFind);
 };
 
+const logoutUser = (req,res)=>{
+    //code for logout
+    try{
+        res.cookie('jwt', '', { maxAge: 1 });
+        res.status(200).json({message: "User logged out"});
+
+    }catch(error){
+        res.status(501).json({message:"Error in logging out"}); 
+        console.log(error);
+    }
+}
 
 
 
 
 
 
-module.exports = { registerUser,loginUser};
+
+module.exports = { registerUser,loginUser, createToken,logoutUser};
 
