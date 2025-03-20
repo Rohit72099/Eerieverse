@@ -29,8 +29,8 @@ let registerUser =async (req,res)=>{
         let token = createToken(user._id);
         // console.log(token);
         res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 });
-
         res.status(201).json({message: "User registered successfully"});
+        res.redirect('/api/user/login');
     }).catch((error)=>{
         res.status(500).json({message: error.message});
     });
@@ -57,8 +57,8 @@ let loginUser = async (req, res) => {
         // console.log(userFind); 
         let token = createToken(userFind._id);
         // console.log(token);
-        res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 });  
-        res.status(200).json({ message: "User logged in" ,});
+       return res.cookie('jwt', token, { httpOnly: true, maxAge: 86400000 })  
+        .status(200).json({ message: "User logged in" ,redirectUrl: "/api/user/userhome"});
     }
     catch(error){
         res.status(500).json({message: error.message});
@@ -71,7 +71,7 @@ const logoutUser = (req,res)=>{
     //code for logout
     try{
         res.cookie('jwt', '', { maxAge: 1 });
-        res.status(200).json({message: "User logged out"});
+        res.status(200).redirect('/api/user/dashboard');
 
     }catch(error){
         res.status(501).json({message:"Error in logging out"}); 

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Eerieverse</title>
+    <link rel="stylesheet" href="/css/style.css"> 
+    <script defer src="/js/login.js"></script> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Login Page Styling */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #121212, #1a1a1a);
+        }
+
+        .login-box {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            width: 400px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 87, 87, 0.5);
+        }
+
+        .login-box h2 {
+            color: #ff5757;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .login-box p {
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 1rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn.login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ff5757;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn.login-btn:hover {
+            background: #e04e4e;
+        }
+
+        /* Register Link */
+        .register-link {
+            margin-top: 15px;
+            color: #ddd;
+        }
+
+        .register-link a {
+            color: #ff5757;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .login-box {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="login-container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <p>Access your EerieVerse account and start exploring stories!</p>
+
+            <form id="loginForm" action="/api/user/login" method="POST">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <button type="submit" class="btn login-btn">Login</button>
+            </form>
+
+            <p class="register-link">Don't have an account? <a href="/api/user/register">Register here</a></p>
+        </div>
+    </section>
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async (event) => {
+            event.preventDefault(); // Prevent form from reloading the page
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/api/user/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                window.location.href = "/api/user/userhome"; // Redirect to dashboard on success
+            } else {
+                const errorText = await response.text();
+                alert(errorText);
+            }
+        });
+    </script>
+     <%- include('common/footer') %>
+</body>
+</html>

@@ -1,6 +1,7 @@
 let  express = require('express')
 let mongoose = require('mongoose');
 const router = require('./app/routes/user.route');
+const path = require('path');
 
 let cors = require('cors');
 let cookieParser = require('cookie-parser');
@@ -13,6 +14,12 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+app.set('views', path.join(__dirname, 'app', 'views'));
+app.set('view engine', 'ejs');
 
 //import routes
 app.use('/api/user',router);

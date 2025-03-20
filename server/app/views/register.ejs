@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - EerieVerse</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script defer src="/js/register.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+    <style>
+        /* Register Page Styling */
+        .register-container {
+            display: flex;
+            justify-content:space-around;
+            align-items: center;
+            height: 140vh;
+            background: linear-gradient(to right, #121212, #1a1a1a);
+        }
+
+        .register-box {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            width: 600px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 87, 87, 0.5);
+        }
+
+        .register-box h2 {
+            color: #ff5757;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .register-box p {
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 1rem;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn.register-btn {
+            width: 100%;
+            padding: 12px;
+            background: #ff5757;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn.register-btn:hover {
+            background: #e04e4e;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            color: #ddd;
+        }
+
+        .login-link a {
+            color: #ff5757;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .register-box {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Register Form -->
+    <section class="register-container">
+        <div class="register-box">
+            <h2>Sign Up</h2>
+            <p>Join EerieVerse and share your stories with the world!</p>
+
+            <form id="registerForm">
+                <div class="input-group">
+                    <label for="username">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter password" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required>
+                </div>
+
+                <!-- Role Selection -->
+                <div class="input-group">
+                    <label for="role">Select Role</label>
+                    <select id="role" name="role" required>
+                        <option value="writer">writer</option>
+                        <option value="reader">Reader</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn register-btn">Register</button>
+            </form>
+
+            <p class="login-link">Already have an account? <a href="/api/user/login">Login here</a></p>
+        </div>
+    </section>
+
+
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async (event) => {
+            event.preventDefault(); // Prevent page reload
+
+            const name = document.getElementById("name").value;
+            const username = document.getElementById("username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const role = document.getElementById("role").value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+
+            const response = await fetch("/api/user/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, username, email, password, role })
+            });
+
+            if (response.ok) {
+                window.location.href = "/api/user/login"; // Redirect to login page
+            } else {
+                const errorText = await response.text();
+                alert(errorText);
+            }
+        });
+    </script>
+
+    <!-- import footer -->
+    <%- include('common/footer') %>
+
+
+</body>
+</html>

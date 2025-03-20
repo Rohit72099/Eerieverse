@@ -12,7 +12,7 @@ const requireAuth = (req, res, next) => {
         if(token){
             jwt.verify(token, SECRET_KEY, async (err, decoded) => {
                 if (err) {
-                    res.status(401).json({ message: "Unauthorized: Invalid token" });
+                    res.status(401).json({ message: "Unauthorized: Invalid token" },redirectUrl="/api/user/login");
                 } else {
                          // Fetch the user from the database to include username
                         const user = await User.findById(decoded.id).select("username");
@@ -34,7 +34,7 @@ const requireAuth = (req, res, next) => {
 
         }
         else{
-            res.json({message:"u dont have token"});
+            res.json({message:"u dont have token"},redirectUrl="/api/user/login");
             
         }
 

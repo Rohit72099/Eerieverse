@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EerieVerse - Welcome</title>
+    <!-- <link rel="stylesheet" href="/public/css/style.css"> -->
+    <!-- <script src="/public/js/script.js" defer></script> -->
+    <style>
+        /* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    text-align: center;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: #ff5757;
+}
+
+/* Auth Buttons */
+.auth-buttons .btn {
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.login-btn {
+    background: #ff5757;
+    color: white;
+}
+
+.register-btn {
+    background: transparent;
+    border: 2px solid #ff5757;
+    color: #ff5757;
+}
+
+.register-btn:hover {
+    background: #ff5757;
+    color: white;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(to right, #000000, #1a1a1a);
+    padding: 50px;
+    margin-top: 80px;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+/* Hero Buttons */
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.hero-buttons .btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.explore-btn {
+    background: #ff5757;
+    color: white;
+}
+
+.write-btn {
+    border: 2px solid #ff5757;
+    color: #ff5757;
+    background: transparent;
+}
+
+.write-btn:hover {
+    background: #ff5757;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">EerieVerse</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/stories">Stories</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/profile">Profile</a></li>
+        </ul>
+        <div class="auth-buttons">
+            <a href="/api/user/login" class="btn login-btn">Login</a>
+            <a href="/api/user/register" class="btn register-btn">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Welcome to EerieVerse</h1>
+        <p>Unleash your imagination. Share and explore thrilling horror stories.</p>
+        <div class="hero-buttons">
+            <a href="/stories" class="btn explore-btn">Explore Stories</a>
+            <a href="/api/user/register" class="btn write-btn">Start Writing</a>
+        </div>
+    </header>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const navToggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (navToggle) {
+        navToggle.addEventListener("click", () => {
+            navLinks.classList.toggle("active");
+        });
+    }
+});
+
+    </script>
+   
+   <%- include('common/footer') %>
+</body>
+</html>
