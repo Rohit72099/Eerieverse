@@ -27,7 +27,7 @@ const requireAuth = (req, res, next) => {
 
 
                     // req.user = decoded; // Store user data in request
-                    console.log(req.user);
+                    // console.log(req.user);
                     next(); // Allow access to the route
                 }
             });

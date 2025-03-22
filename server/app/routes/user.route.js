@@ -8,7 +8,7 @@ let { User } = require('../model/user.model');
 const { registerUser, loginUser, logoutUser} = require('../controller/user.controller');
 const { checkExitedUser } = require('../middleware/checkExitedUser');
 const { requireAuth } = require('../middleware/auth.middleware');
-const { createStory, getAllStory, userSpecificStory, likeStory, unlikeStory} = require('../controller/story.controller');
+const { createStory, userSpecificStory, likeStory, unlikeStory} = require('../controller/story.controller');
 
 
 
@@ -44,7 +44,7 @@ router.post('/logout',requireAuth,logoutUser);
 //protected routes
 //story route
 router.post('/save-story',requireAuth,createStory);
-router.get('/get-all-story',requireAuth,getAllStory);
+// router.get('/get-all-story',requireAuth,getAllStory);
 router.get('/user-story',requireAuth,userSpecificStory);
 
 
@@ -78,7 +78,10 @@ router.get("/userhome" ,requireAuth, async (req, res) => {
         const stories = await Story.find()
             .sort({ createdAt: -1 })
             .limit(10)
-            .populate('writer');
+            .populate({
+                path: 'writer',
+                select: '+username name email'
+              });
 
         console.log(stories);
         res.render('userhome', { user, stories, getTimeSince }); // Pass user object to EJS
@@ -87,6 +90,10 @@ router.get("/userhome" ,requireAuth, async (req, res) => {
         res.status(500).send("Server error");
     }
 });
+
+router.get('/proceed-to-post',requireAuth,(req,res)=>{
+    res.render('postStory');
+})
     
 
 

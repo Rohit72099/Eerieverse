@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a New Story</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f0f1a;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .post-container {
+      background-color: rgba(28, 28, 40, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      width: 90%;
+      max-width: 600px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ff4d4d;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #ccc;
+    }
+
+    input, textarea, select {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      margin-bottom: 20px;
+      background-color: #1a1a2e;
+      color: #e0e0e0;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    button {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #2e2e4d, #1a1a2e);
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+      background-color: #3d3d5c;
+      transform: scale(1.05);
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #ff4d4d;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="post-container">
+    <h1>Post Your Story</h1>
+    <form action="/api/user/save-story" method="POST">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" required placeholder="Enter your story title">
+
+      <label for="content">Content</label>
+      <textarea id="content" name="content" required placeholder="Write your eerie tale..."></textarea>
+
+      <!-- Optional Genre dropdown (uncomment if you want) -->
+      <!-- 
+      <label for="genre">Genre</label>
+      <select id="genre" name="genre">
+        <option value="horror">Horror</option>
+        <option value="mystery">Mystery</option>
+        <option value="psychological">Psychological</option>
+      </select> 
+      -->
+
+      <button type="submit">Publish</button>
+    </form>
+    <a href="/api/user/userhome" class="back-link">← Back to Home</a>
+  </div>
+</body>
+</html>

@@ -11,24 +11,25 @@ let createStory = async (req, res) => {
             status
         });
         await story.save();
-        console.log(story);
-        res.json({ message: "Story created successfully", story });
+        // console.log(story);
+        res.redirect('/api/user/userhome');
+    
     }
     catch (error) {
         res.status(400).json({ error: error.message });
     }
 }
 
-let getAllStory = async (req, res) => {
-    try {
-        let stories = await Story.find().populate('writer', 'email-_id');
-        res.json({ stories });
-    }
-    catch (error) {
-        res.status(400).json({ error: error.message });
-    }
+// let getAllStory = async (req, res) => {
+//     try {
+//         let stories = await Story.find().populate('writer');
+//         res.json({ stories });
+//     }
+//     catch (error) {
+//         res.status(400).json({ error: error.message });
+//     }
 
-};
+// };
 
 let userSpecificStory = async (req, res) => {
     // let id = req.params.id;
@@ -84,4 +85,4 @@ let unlikeStory = async (req, res) => {
 
 
 
-module.exports = {createStory,getAllStory,userSpecificStory, likeStory, unlikeStory};
+module.exports = {createStory,userSpecificStory, likeStory, unlikeStory};
