@@ -1,16 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Home - Eerieverse</title>
+  <link rel="stylesheet" href="/css/userhome.css" />
+  <style>
+    /* Reset and Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1a1a1a;
+  color: #fff;
+  line-height: 1.6;
+}
+
+/* Navbar */
+.nav {
+
+  width: 100%;
+  background-color: #2c2c2c;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 2px solid #ff004c;
+}
+
+/* Welcome Section */
+.userWel {
+  margin-top: 70px;
+  height: 70px;
+  width: 100%;
+  background-color: #2b2b2b;
+  border-bottom: 1px solid #444;
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+  /* padding: 0 40px; */
+  position: sticky;
+  top: 70px;
+  z-index: 999;
+  /* border: 1px solid white; */
+}
+
+/* Profile Info */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* border: 1px solid pink; */
+  width: 33%;
+}
+
+.avatar img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff004c;
+}
+
+.name h2 {
+  font-size: 20px;
+  color: #fff;
+}
+.postStory{
+    width: 33%;
+    /* border:1px solid snow; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+.setting{
+    width: 33%;
+    /* border: 1px solid sandybrown; */
+
+}
+/* Post Button */
+.slide-button {
+        display: inline-block;
+        /* padding: 12px 24px; */
+        color: white;
+        background-color: #ff004c;
+        text-decoration: none;
+        font-size: 30px;
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        transition: color 0.4s ease;
+        width: 90%;
+        height: 90%;
+        font-weight: bold;
+        text-align: center;
+        line-height: 60px;
+        cursor: pointer;
+        }
+
+        .slide-button::before {
+        content: "Proceed for Posting";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: #e60044;
+        transition: left 0.4s ease;
+        z-index: 0;
+        }
+
+        .slide-button:hover::before {
+        left: 0;
+        }
+
+        .slide-button:hover {
+        color: #fff;
+        }
+
+        .slide-button {
+        position: relative;
+        z-index: 1;
+        }
+
+/* View Section */
+.view {
+  display: flex;
+  margin-top: 20px;
+  padding: 20px;
+  gap: 20px;
+  width: 100%;
+  /* border: 1px solid wheat; */
+}
+
+/* Sidebars */
+.blank1,
+.blank2 {
+  flex: 1;
+  background-color: #222;
+  padding: 15px;
+  border-radius: 10px;
+  min-height: 90vh;
+  width: 33%;
+  /* border: 1px solid seashell; */
+}
+
+.blank1 ul {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.blank1 ul li {
+  margin: 10px 0;
+  padding: 5px 10px;
+  background-color: #333;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.blank1 ul li:hover {
+  background-color: #444;
+}
+.working{
+    /* border: 1px solid white; */
+    width: 38%;
+    overflow-y: auto;
+    max-height: calc(100vh - 100px);
+    gap: 15px;
+    box-sizing: border-box;
+
+}
+
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive Fix */
+@media (max-width: 600px) {
+    .story-feed {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+
+.working {
+  overflow-y: auto;
+  height: 100vh; /* or any height you’ve set */
+  padding-right: 10px; /* avoids content overlapping scrollbar */
+
+  /* Firefox support */
+  scrollbar-width: thin;
+  scrollbar-color: #5c5c5c #111;
+}
+
+/* Chrome, Edge, Safari */
+.working::-webkit-scrollbar {
+  width: 8px;
+}
+
+.working::-webkit-scrollbar-track {
+  background: #111; /* very dark background */
+  border-radius: 10px;
+}
+
+.working::-webkit-scrollbar-thumb {
+  background: #5c5c5c; /* medium-dark gray */
+  border-radius: 10px;
+  box-shadow: inset 0 0 5px red; /* eerie glow effect */
+}
+
+.working::-webkit-scrollbar-thumb:hover {
+  background: #888;
+  box-shadow: inset 0 0 7px crimson; /* on hover – more sinister */
+}
+
+
+
+.working::-webkit-scrollbar-thumb {
+  background: linear-gradient(#8b0000, #ff0000);
+  border-radius: 10px;
+  box-shadow: 0 0 6px #ff0000;
+}
+
+  </style>
 </head>
 <body>
+  <!-- Navbar -->
+  <div class="nav">
     <%- include('common/header') %>
-    <!-- content -->
-     
-    
+  </div>
 
-    <%- include('common/footer') %>
+  <!-- User Welcome Section -->
+  <div class="userWel">
+    <div class="profile">
+      <div class="avatar">
+        <img src="/images/user-avatar.png" alt="User Avatar" />
+      </div>
+      <div class="name">
+        <h2><%= user.username %></h2>
+      </div>
+    </div>
+
+    <div class="postStory">
+      <a class="slide-button" href="/create-story">Post Story</a>
+    </div>
+
+    <div class="setting">
+      <!-- You can add a settings icon or logout -->
+    </div>
+  </div>
+
+  <!-- Main View -->
+    <div class="view">
+        <!-- Left Sidebar -->
+        <div class="blank1">
+        <p>Genres</p>
+        <ul>
+            <li>👻 Ghosts</li>
+            <li>🩸 Vampires</li>
+            <li>👁️ Psychological</li>
+            <li>👹 Creatures</li>
+        </ul>
+        </div>
+
+        <!-- Story Feed -->
+        <div class="working">  <%- include('StoryCard') %> </div>
+
+        <!-- Right Sidebar -->
+        <div class="blank2">
+             <p>Top Stories</p>
+            <!-- You can dynamically load top liked stories -->
+         </div>
+    </div>
+
 </body>
 </html>

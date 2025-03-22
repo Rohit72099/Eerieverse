@@ -17,6 +17,10 @@ const storySchema = new Schema({
         ref: 'User',
         required: true
     },
+    // genre:{
+    //     type: String,
+    //     required: true
+    // },
     status:{
         type: String,
         enum: ['draft', 'published'],

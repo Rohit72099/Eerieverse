@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+   
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.StoryCard {
+    width: 450px;
+    height: 480px;
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: rgba(24, 24, 34, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    /* backdrop-filter: blur(6px); */
+    transition: transform 0.3s ease;
+    color: #e2e2e2;
+}
+
+.StoryCard:hover {
+    transform: scale(1.02);
+}
+
+.StoryProfile {
+    height: 60px;
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px;
+    align-items: center;
+}
+
+.name {
+    width: 60%;
+    display: flex;
+    align-items: center;
+}
+
+.avtar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+    border: 2px solid #8a2be2;
+}
+
+.username {
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.setting {
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: #999;
+    font-size: 18px;
+}
+
+.content {
+    height: 360px;
+    padding: 10px 20px;
+    overflow-y: auto;
+}
+
+.content fieldset {
+    height: 100%;
+    border-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border: 1px solid #5b1c1c;
+    padding: 15px;
+    background-color: rgba(50, 10, 10, 0.2);
+    color: #ddd;
+    overflow: auto;
+}
+
+.content legend {
+    text-align: center;
+    color: #ff4d4d;
+    font-size: 20px;
+    padding: 0 10px;
+    text-transform: uppercase;
+}
+
+.utils {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0 10px;
+}
+
+.interaction {
+    width: 80%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comment,
+.share {
+    width: 10%;
+    text-align: center;
+    cursor: pointer;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.comment:hover,
+.share:hover {
+    color: #ff4d4d;
+}
+
+.interaction button {
+    padding: 6px 14px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    background: linear-gradient(145deg, #2e2e4d, #1a1a2e);
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.interaction button:hover {
+    background-color: #3d3d5c;
+    transform: scale(1.05);
+}
+
+.like-btn span,
+.unlike-btn span {
+    font-weight: bold;
+    margin-left: 4px;
+}
+
+
+.content fieldset {
+  height: 100%;
+  border-top-right-radius: 50px;
+  border-bottom-left-radius: 50px;
+  border-color: red;
+  overflow: auto;
+
+  /* Firefox support */
+  scrollbar-width: thin;
+  scrollbar-color: #5c5c5c #1a1a1a;
+}
+
+/* Chrome, Edge, Safari scrollbar styling */
+.content fieldset::-webkit-scrollbar {
+  width: 8px;
+}
+
+.content fieldset::-webkit-scrollbar-track {
+  background: #1a1a1a; /* Dark background */
+  border-radius: 10px;
+}
+
+.content fieldset::-webkit-scrollbar-thumb {
+  background: #5c5c5c; /* Gray thumb */
+  border-radius: 10px;
+}
+
+.content fieldset::-webkit-scrollbar-thumb:hover {
+  background: #888; /* Lighter on hover */
+}
+
+
+.content fieldset::-webkit-scrollbar-thumb {
+  background: #5c5c5c;
+  border-radius: 10px;
+  box-shadow: 0 0 5px red;
+}
+
+
+
+
+</style>
+<body>
+    
+    <% stories.forEach(story => { %>
+        <div class="StoryCard" data-id="<%= story._id %>">
+          <div class="StoryProfile">
+            <div class="name">
+              <div class="avtar">
+                <!-- Optional avatar image -->
+                <img src="#" alt="Avatar" style="width:100%; height:100%;">
+              </div>
+              <div class="username">
+                <%= story.writer.name %><br>
+              </div>
+            </div>
+            <div class="setting">
+              <!-- Optional settings -->
+              <small><%= getTimeSince(story.createdAt) %></small>
+            </div>
+          </div>
+      
+          <div class="content">
+            <fieldset>
+              <legend><%= story.title %></legend>
+              <p><%= story.content %></p>
+            </fieldset>
+          </div>
+      
+          <div class="utils">
+            <div class="interaction">
+              <button class="like-btn" data-id="<%= story._id %>">
+                👍 Like (<span class="like-count"><%= story.likes.length %></span>)
+              </button>
+              <button class="unlike-btn" data-id="<%= story._id %>">
+                👎 Dislike (<span class="dislike-count"><%= story.unlikes.length %></span>)
+              </button>
+            </div>
+            <div class="comment"></div>
+            <div class="share"></div>
+          </div>
+        </div>
+      <% }) %>
+      
+
+            <script>
+                document.addEventListener("DOMContentLoaded", () => {
+            // Like button
+            document.querySelectorAll(".like-btn").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const id = btn.dataset.id;
+                    const res = await fetch(`/api/user/${id}/like`, { method: 'PUT' });
+                    if (res.ok) {
+                        const count = btn.querySelector(".like-count");
+                        count.textContent = parseInt(count.textContent) + 1;
+                    }
+                });
+            });
+        
+            // Unlike button
+            document.querySelectorAll(".unlike-btn").forEach(btn => {
+                btn.addEventListener("click", async () => {
+                    const id = btn.dataset.id;
+                    const res = await fetch(`/api/user/${id}/unlike`, { method: 'PUT' });
+                    if (res.ok) {
+                        const likeCount = document.querySelector(`.story-post[data-id="${id}"] .like-count`);
+                        likeCount.textContent = Math.max(0, parseInt(likeCount.textContent) - 1);
+                    }
+                });
+            });
+        });
+        
+            </script>
+    
+    
+</body>
+</html>
