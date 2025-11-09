@@ -22,14 +22,28 @@ let app = express();
 //   next();
 // });
 
+// app.use((req, res, next) => {
+//   res.setHeader("Content-Security-Policy", 
+//     "default-src 'self'; " +
+//     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " +
+//     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+//     "font-src 'self' https://fonts.gstatic.com https://eerieverse2.vercel.app; " +
+//     "img-src 'self' data:; " +
+//     "connect-src 'self' http://localhost:8000 https://eerieverse2.vercel.app; " +
+//     "object-src 'none';"
+//   );
+//   next();
+// });
+
+
 app.use((req, res, next) => {
   res.setHeader("Content-Security-Policy", 
     "default-src 'self'; " +
     "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-    "font-src 'self' https://fonts.gstatic.com https://eerieverse2.vercel.app; " +
+    "font-src 'self' https://fonts.gstatic.com; " +
     "img-src 'self' data:; " +
-    "connect-src 'self' http://localhost:8000 https://eerieverse2.vercel.app; " +
+    "connect-src 'self' https://eerieverse-vqsx.vercel.app https://eerieverse.vercel.app; " +
     "object-src 'none';"
   );
   next();
