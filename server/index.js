@@ -41,7 +41,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended:true}));
 // app.use(cors());
 app.use(cors({
-  origin: "http://localhost:8080",   // your frontend origin
+  origin: process.env.CLIENT_URL,   // your frontend origin
   credentials: true,                 // allow credentials (cookies, auth)
 }));
 app.use(express.json());
