@@ -3,8 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' https://code.jquery.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+  font-src 'self' https://fonts.gstatic.com;
+">
+
+
   <title>User Home - Eerieverse</title>
-  <link rel="stylesheet" href="/css/userhome.css" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <style>
     /* Reset and Base */
 * {
@@ -14,7 +22,8 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  font-family: 'Times New Roman', Times, serif;
   background-color: #1a1a1a;
   color: #fff;
   line-height: 1.6;
@@ -249,7 +258,7 @@ body {
   <div class="userWel">
     <div class="profile">
       <div class="avatar">
-        <img src="/images/user-avatar.png" alt="User Avatar" />
+        <img src="#" alt="User Avatar" />
       </div>
       <div class="name">
         <h2><%= user.username %></h2>
@@ -257,7 +266,7 @@ body {
     </div>
 
     <div class="postStory">
-      <a class="slide-button" href="/api/user/proceed-to-post">Post Story</a>
+      <a class="slide-button" href="/proceed-to-post">Post Story</a>
     </div>
 
     <div class="setting">
@@ -279,7 +288,7 @@ body {
         </div>
 
         <!-- Story Feed -->
-        <div class="working">  <%- include('StoryCard') %> </div>
+        <div class="working">  <%- include('storyCard') %> </div>
 
         <!-- Right Sidebar -->
         <div class="blank2">

@@ -12,7 +12,7 @@ const requireAuth = (req, res, next) => {
         if(token){
             jwt.verify(token, SECRET_KEY, async (err, decoded) => {
                 if (err) {
-                    res.status(401).json({ message: "Unauthorized: Invalid token" },redirectUrl="/api/user/login");
+                    res.status(401).json({ message: "Unauthorized: Invalid token" },redirectUrl="/login");
                 } else {
                          // Fetch the user from the database to include username
                         const user = await User.findById(decoded.id).select("username");
@@ -26,15 +26,15 @@ const requireAuth = (req, res, next) => {
 
 
 
-                    // req.user = decoded; // Store user data in request
-                    // console.log(req.user);
+                    req.user = decoded; // Store user data in request
+                    console.log(req.user);
                     next(); // Allow access to the route
                 }
             });
 
         }
         else{
-            res.json({message:"u dont have token"},redirectUrl="/api/user/login");
+            res.json({message:"u dont have token"},redirectUrl="/login");
             
         }
 
@@ -43,4 +43,29 @@ const requireAuth = (req, res, next) => {
     }
 };
 
-module.exports = { requireAuth };
+  
+
+// Optional auth: Sets req.user if token is valid, but doesn't fail if token is missing
+const optionalAuth = async (req, res, next) => {
+    let token = req.cookies.jwt || req.header("Authorization")?.split(" ")[1];
+    
+    try {
+        if (token) {
+            jwt.verify(token, SECRET_KEY, async (err, decoded) => {
+                if (!err && decoded) {
+                    const user = await User.findById(decoded.id).select("username");
+                    if (user) {
+                        req.user = { id: decoded.id, username: user.username };
+                    }
+                }
+                next(); // Continue regardless of token validity
+            });
+        } else {
+            next(); // No token, continue without setting req.user
+        }
+    } catch (error) {
+        next(); // On error, continue without setting req.user
+    }
+};
+
+module.exports = { requireAuth, optionalAuth };

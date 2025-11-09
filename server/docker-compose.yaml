@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  server:
+    build: .
+    container_name: eerieverse-server
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped

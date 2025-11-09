@@ -3,7 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' https://code.jquery.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+  font-src 'self' https://fonts.gstatic.com;
+">
+
     <title>Document</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
 <style>
    
@@ -17,7 +25,8 @@
     width: 450px;
     height: 480px;
     margin-bottom: 30px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     background: rgba(24, 24, 34, 0.9);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
@@ -239,7 +248,7 @@
             document.querySelectorAll(".like-btn").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const id = btn.dataset.id;
-                    const res = await fetch(`/api/user/${id}/like`, { method: 'PUT' });
+                    const res = await fetch(`/${id}/like`, { method: 'PUT' });
                     if (res.ok) {
                         const count = btn.querySelector(".like-count");
                         count.textContent = parseInt(count.textContent) + 1;
@@ -251,7 +260,7 @@
             document.querySelectorAll(".unlike-btn").forEach(btn => {
                 btn.addEventListener("click", async () => {
                     const id = btn.dataset.id;
-                    const res = await fetch(`/api/user/${id}/unlike`, { method: 'PUT' });
+                    const res = await fetch(`/${id}/unlike`, { method: 'PUT' });
                     if (res.ok) {
                         const likeCount = document.querySelector(`.story-post[data-id="${id}"] .like-count`);
                         likeCount.textContent = Math.max(0, parseInt(likeCount.textContent) - 1);

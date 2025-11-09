@@ -1,5 +1,4 @@
 {
-
   "version": 2,
   "builds": [
     {
@@ -9,19 +8,8 @@
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/api/user/dashboard"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/index.js"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "/api/user/dashboard"
+      "src": "/(.*)",
+      "dest": "index.js"
     }
   ]
 }
-

@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
+// Predefined list of genres
+// const GENRES = ['Horror', 'Mystery', 'Fantasy', 'Sci-Fi', 'Thriller', 'Romance', 'Drama','General'];
 
 const storySchema = new Schema({
     title:{
@@ -17,10 +18,11 @@ const storySchema = new Schema({
         ref: 'User',
         required: true
     },
-    // genre:{
-    //     type: String,
-    //     required: true
-    // },
+    genre:{
+        type: String,
+        default: 'General',
+        enum: ['Horror', 'Mystery', 'Fantasy', 'Sci-Fi', 'Thriller', 'Romance', 'Drama', 'General', 'Supernatural', 'Psychological', 'Gothic']
+    },
     status:{
         type: String,
         enum: ['draft', 'published'],

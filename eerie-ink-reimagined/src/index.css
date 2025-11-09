@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* EerieVerse Dark Theme - Main Colors */
+    --background: 220 15% 6%;
+    --foreground: 0 0% 100%;
+
+    --card: 220 15% 9%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 220 15% 9%;
+    --popover-foreground: 0 0% 100%;
+
+    /* Purple-Cyan Accent */
+    --primary: 249 58% 69%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Lighter surface for hover states */
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 15% 12%;
+    --muted-foreground: 0 0% 69%;
+
+    --accent: 249 58% 69%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Red highlight for interactions */
+    --destructive: 348 83% 58%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 16%;
+    --input: 220 15% 16%;
+    --ring: 249 58% 69%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar */
+    --sidebar-background: 220 15% 6%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 249 58% 69%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 12%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 15% 16%;
+    --sidebar-ring: 249 58% 69%;
+
+    /* Custom design tokens */
+    --gradient-primary: linear-gradient(135deg, hsl(249 58% 69%), hsl(188 94% 60%));
+    --gradient-horror: linear-gradient(135deg, hsl(348 83% 58%), hsl(249 58% 69%));
+    --shadow-elegant: 0 10px 30px -10px hsl(249 58% 69% / 0.3);
+    --shadow-glow: 0 0 40px hsl(249 58% 69% / 0.2);
+    --shadow-card: 0 4px 20px hsl(220 15% 3% / 0.6);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "liga" 1, "calt" 1;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--accent));
+  }
+}
+
+@layer utilities {
+  .hover-lift {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-1 shadow-[var(--shadow-elegant)];
+  }
+
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-horror {
+    background: var(--gradient-horror);
+  }
+
+  .text-shadow-glow {
+    text-shadow: 0 0 20px hsl(var(--accent) / 0.5);
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
