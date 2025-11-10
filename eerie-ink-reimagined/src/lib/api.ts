@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 // Configure your Express server URL here
-// const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const api = axios.create({
-  baseURL: "/",
+  baseURL: API_BASE_URL,
   withCredentials: true, // Important for cookie-based auth
   headers: {
     'Content-Type': 'application/json',

@@ -60,24 +60,24 @@ app.use(express.urlencoded({extended:true}));
 // }));
 
 
-// const allowedOrigins = [
-//   "https://eerieverse-vqsx.vercel.app", // your frontend
-//   "https://eerieverse.vercel.app",      // just in case both used
-//   "http://localhost:8080"               // for local dev
-// ];
+const allowedOrigins = [
+  "https://eerieverse-vqsx.vercel.app", // your frontend
+  "https://eerieverse.vercel.app",      // just in case both used
+  "http://localhost:8080"               // for local dev
+];
 
-// app.use(
-//   cors({
-//     origin: (origin, callback) => {
-//       if (!origin || allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 
 app.use(express.json());
