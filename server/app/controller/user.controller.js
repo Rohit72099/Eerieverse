@@ -124,7 +124,7 @@ const registerUser = async (req, res) => {
       httpOnly: true,
       // secure: process.env.NODE_ENV === 'production',
       secure: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
@@ -166,7 +166,7 @@ const loginUser = async (req, res) => {
       httpOnly: true,
       // secure: process.env.NODE_ENV === 'production',
       secure: true,
-      sameSite: 'none',
+      sameSite: 'lax',
       maxAge: 24 * 60 * 60 * 1000,
     });
 
