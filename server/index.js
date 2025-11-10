@@ -54,10 +54,32 @@ app.use(cookieParser());
 
 app.use(express.urlencoded({extended:true}));
 // app.use(cors());
-app.use(cors({
-  origin: process.env.CLIENT_URL,   // your frontend origin
-  credentials: true,                 // allow credentials (cookies, auth)
-}));
+// app.use(cors({
+//   origin: process.env.CLIENT_URL,   // your frontend origin
+//   credentials: true,                 // allow credentials (cookies, auth)
+// }));
+
+
+const allowedOrigins = [
+  "https://eerieverse-vqsx.vercel.app", // your frontend
+  "https://eerieverse.vercel.app",      // just in case both used
+  "http://localhost:8080"               // for local dev
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
+
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 

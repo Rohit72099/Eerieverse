@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/(login|register|logout|story|userhome|comment|profile|follow|unfollow|like)(.*)",
+      "destination": "https://eerieverse.vercel.app/$1$2"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}
