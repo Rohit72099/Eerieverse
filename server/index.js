@@ -9,6 +9,36 @@ let cookieParser = require('cookie-parser');
 require('dotenv').config();
 let app = express();
 
+// Vercel invokes the exported Express app as a serverless function.  Keep the
+// database connection reusable across warm invocations instead of starting an
+// HTTP server when this file is imported.
+const databaseUrl = process.env.DBURL || process.env.MONGO_URI;
+let databaseConnection;
+
+function connectToDatabase() {
+  if (mongoose.connection.readyState === 1) {
+    return Promise.resolve();
+  }
+
+  if (!databaseUrl) {
+    return Promise.reject(new Error('Missing DBURL (or MONGO_URI) environment variable.'));
+  }
+
+  if (!databaseConnection) {
+    databaseConnection = mongoose.connect(databaseUrl)
+      .then(() => {
+        console.log('Connected to MongoDB');
+      })
+      .catch((error) => {
+        // Allow a later request to retry if the initial connection failed.
+        databaseConnection = undefined;
+        throw error;
+      });
+  }
+
+  return databaseConnection;
+}
+
 // app.use((req, res, next) => {
 //   res.setHeader("Content-Security-Policy", 
 //     "default-src 'self'; " +
@@ -61,23 +91,39 @@ app.use(express.urlencoded({extended:true}));
 
 
 const allowedOrigins = [
-  "https://eerieverse-vqsx.vercel.app", // your frontend
-  "https://eerieverse.vercel.app",      // just in case both used
-  "http://localhost:8080"               // for local dev
-];
+  process.env.CLIENT_URL,
+  "https://eerieverse-vqsx.vercel.app", // production frontend
+  "https://eerieverse.vercel.app",
+  "http://localhost:5173",              // Vite local dev
+  "http://localhost:8080"
+].filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+        return callback(null, true);
       }
+
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
+    methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    optionsSuccessStatus: 204,
   })
 );
+
+// Do this after CORS: preflight requests are answered immediately, even while
+// the database is reconnecting.
+app.use(async (req, res, next) => {
+  try {
+    await connectToDatabase();
+    next();
+  } catch (error) {
+    console.error('MongoDB connection error:', error);
+    res.status(503).json({ message: 'Database connection unavailable' });
+  }
+});
 
 
 app.use(express.json());
@@ -104,10 +150,20 @@ app.use(router);
 
 
 
-//connect to MongoDB   
-mongoose.connect(process.env.DBURL).then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(process.env.PORT || 3000, () => {
-        console.log("Server is running on port "+process.env.PORT);
+// Start an HTTP listener only when running this file directly (local Docker / npm
+// start). Vercel imports this module and uses the exported Express app instead.
+if (require.main === module) {
+  connectToDatabase()
+    .then(() => {
+      const port = process.env.PORT || 3000;
+      app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+      });
+    })
+    .catch((error) => {
+      console.error('Unable to start server:', error);
+      process.exitCode = 1;
     });
-});
+}
+
+module.exports = app;

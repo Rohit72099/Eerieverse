@@ -131,7 +131,7 @@ npm run dev
 - Output Directory: `N/A`
 - Environment Variables:
   ```
-  MONGO_URI=your_mongo_uri
+  DBURL=your_mongo_uri
   SECRET_KEY=your_jwt_secret
   CLIENT_URL=https://eerieverse-vqsx.vercel.app
   NODE_ENV=production
