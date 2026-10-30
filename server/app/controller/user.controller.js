@@ -92,7 +92,7 @@
 const mongoose = require('mongoose');
 const { User } = require('../model/user.model');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const SECRET_KEY = process.env.SECRET_KEY;
