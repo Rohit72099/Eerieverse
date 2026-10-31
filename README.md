@@ -89,11 +89,17 @@ npm install
 
 Create a `.env` file in the `server` folder:
 ```bash
-MONGO_URI=your_mongodb_connection_string
+DBURL=your_mongodb_connection_string
 SECRET_KEY=your_jwt_secret
 CLIENT_URL=http://localhost:5173   # or your deployed frontend URL
 PORT=5000
 NODE_ENV=development
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=your_smtp_username
+SMTP_PASS=your_smtp_password
+SMTP_SECURE=false
+EMAIL_FROM="EerieVerse <no-reply@example.com>"
 ```
 
 Run backend locally:
@@ -135,6 +141,12 @@ npm run dev
   SECRET_KEY=your_jwt_secret
   CLIENT_URL=https://eerieverse-vqsx.vercel.app
   NODE_ENV=production
+  SMTP_HOST=your_smtp_host
+  SMTP_PORT=587
+  SMTP_USER=your_smtp_username
+  SMTP_PASS=your_smtp_password
+  SMTP_SECURE=false
+  EMAIL_FROM="EerieVerse <no-reply@your-domain.com>"
   ```
 
 ### 💻 Frontend
@@ -160,6 +172,11 @@ npm run dev
 | 🔎 Search | Full-text search on stories & users |
 | 🎨 UI | Clean, responsive UI with TailwindCSS and Lucide icons |
 | ☁️ Cloud Deployed | Fully deployed on Vercel (Frontend + Backend) |
+| ✉️ Account recovery | Email verification and one-hour password-reset links via SMTP |
+
+### Email setup
+
+The backend sends verification and password-reset links through the SMTP service configured above. For Gmail, use `smtp.gmail.com`, port `587`, an app password as `SMTP_PASS`, and `SMTP_SECURE=false`. For other providers, use the SMTP values they supply. Add these variables to the **backend** Vercel project, then redeploy it.
 
 ---
 

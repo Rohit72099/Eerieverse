@@ -12,6 +12,9 @@ import Profile from "./pages/Profile";
 import UserProfile from "./pages/UserProfile";
 import SearchResults from "./pages/SearchResults";
 import Login from "./pages/Login";
+import VerifyEmail from "./pages/VerifyEmail";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +28,9 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
+            <Route path="/verify-email" element={<VerifyEmail />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
             <Route path="/story/:id" element={<ProtectedRoute><StoryDetail /></ProtectedRoute>} />
             <Route path="/create" element={<ProtectedRoute><CreateStory /></ProtectedRoute>} />

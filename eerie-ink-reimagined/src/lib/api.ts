@@ -27,6 +27,26 @@ export const authAPI = {
     const response = await api.post('/logout');
     return response.data;
   },
+
+  verifyEmail: async (token: string) => {
+    const response = await api.post('/verify-email', { token });
+    return response.data;
+  },
+
+  resendVerification: async (email: string) => {
+    const response = await api.post('/resend-verification', { email });
+    return response.data;
+  },
+
+  requestPasswordReset: async (email: string) => {
+    const response = await api.post('/forgot-password', { email });
+    return response.data;
+  },
+
+  resetPassword: async (token: string, password: string) => {
+    const response = await api.post('/reset-password', { token, password });
+    return response.data;
+  },
 };
 
 // Story APIs

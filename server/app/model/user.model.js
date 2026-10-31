@@ -30,6 +30,28 @@ const userSchema = new Schema({
         default:'reader',
         required:[true, 'please enter your role']
     },
+    // Existing accounts predate email verification, so they are treated as
+    // verified. New accounts are explicitly created with this set to false.
+    isEmailVerified: {
+        type: Boolean,
+        default: true
+    },
+    emailVerificationTokenHash: {
+        type: String,
+        select: false
+    },
+    emailVerificationExpires: {
+        type: Date,
+        select: false
+    },
+    passwordResetTokenHash: {
+        type: String,
+        select: false
+    },
+    passwordResetExpires: {
+        type: Date,
+        select: false
+    },
     savedStories: [{ 
         type: Schema.Types.ObjectId, 
         ref: 'Story' 

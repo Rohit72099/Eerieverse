@@ -115,7 +115,21 @@ const { Story } = require('../model/story.model');
 const { User } = require('../model/user.model');
 
 // Controllers
-const { registerUser, loginUser, logoutUser, followUser, unfollowUser, getUserProfile, getFollowers, getFollowing, searchUsers } = require('../controller/user.controller');
+const {
+  registerUser,
+  loginUser,
+  logoutUser,
+  verifyEmail,
+  resendVerificationEmail,
+  requestPasswordReset,
+  resetPassword,
+  followUser,
+  unfollowUser,
+  getUserProfile,
+  getFollowers,
+  getFollowing,
+  searchUsers,
+} = require('../controller/user.controller');
 const { createStory, userSpecificStory, getAllStories, getStoryById, likeStory, unlikeStory, getLikedStories, saveStory, getSavedStories, getStoriesByUsername, searchStories } = require('../controller/story.controller');
 const { createComment, getStoryComments, likeComment, dislikeComment, deleteComment } = require('../controller/comment.controller');
 
@@ -159,6 +173,12 @@ router.post('/login', loginUser);
 
 // Logout user
 router.post('/logout', requireAuth, logoutUser);
+
+// Email verification and password recovery
+router.post('/verify-email', verifyEmail);
+router.post('/resend-verification', resendVerificationEmail);
+router.post('/forgot-password', requestPasswordReset);
+router.post('/reset-password', resetPassword);
 
 /* ============================
    ✅ STORY ROUTES

@@ -41,7 +41,9 @@ export default function Login() {
           password: formData.get('password') as string,
         };
         signupSchema.parse(data);
-        await register(data);
+        const response = await register(data);
+        navigate(`/verify-email?email=${encodeURIComponent(response.email)}`);
+        return;
       } else {
         const data = {
           email: formData.get('email') as string,
@@ -58,6 +60,9 @@ export default function Login() {
           if (err.path[0]) fieldErrors[err.path[0] as string] = err.message;
         });
         setErrors(fieldErrors);
+      } else if ((error as any)?.response?.data?.requiresEmailVerification) {
+        const email = (error as any).response.data.email;
+        navigate(`/verify-email?email=${encodeURIComponent(email)}`);
       }
     } finally {
       setIsLoading(false);
@@ -155,6 +160,14 @@ export default function Login() {
               {isLoading ? "Processing..." : (isSignUp ? "Create Account" : "Sign In")}
             </Button>
           </form>
+
+          {!isSignUp && (
+            <div className="mt-4 text-center">
+              <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+                Forgot your password?
+              </Link>
+            </div>
+          )}
 
           {/* Toggle Sign In/Up */}
           <div className="mt-6 text-center">

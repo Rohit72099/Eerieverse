@@ -13,7 +13,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (userData: { username: string; email: string; password: string; name: string }) => Promise<void>;
+  register: (userData: { username: string; email: string; password: string; name: string }) => Promise<{ email: string }>;
   logout: () => Promise<void>;
 }
 
@@ -78,12 +78,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = async (userData: { username: string; email: string; password: string; name: string }) => {
     try {
       const data = await authAPI.register(userData);
-      setUser(data.user);
-      localStorage.setItem('user', JSON.stringify(data.user));
       toast({
-        title: "Account created!",
-        description: "Welcome to EerieVerse.",
+        title: "Check your email",
+        description: "Open the verification link before signing in.",
       });
+      return { email: data.email };
     } catch (error: any) {
       toast({
         title: "Registration failed",
